@@ -22,6 +22,9 @@ public class Player {
     /** добавление игры игроку
     если игра уже была, никаких изменений происходить не должно */
     public void installGame(Game game) {
+        if (playedTime.containsKey(game)){
+            return;
+        }
         playedTime.put(game, 0);
     }
 
@@ -31,13 +34,15 @@ public class Player {
     возвращает суммарное количество часов, проигранное в эту игру.
     если игра не была установлена, то надо выкидывать RuntimeException */
     public int play(Game game, int hours) {
-        game.getStore().addPlayTime(name, hours);
-        if (playedTime.containsKey(game)) {
-            playedTime.put(game, playedTime.get(game));
-        } else {
-            playedTime.put(game, hours);
+        if (playedTime.containsKey(game)){
+            if (hours >= 0) {
+                game.getStore().addPlayTime(name, hours);
+                playedTime.put(game, playedTime.get(game) + hours);
+                return playedTime.get(game);
+            }
+            throw new RuntimeException("Время игры не может быть отрицательным");
         }
-        return playedTime.get(game);
+        throw new RuntimeException("Игра не установлена");
     }
 
     /** Метод принимает жанр игры (одно из полей объекта игры) и
@@ -46,9 +51,7 @@ public class Player {
         int sum = 0;
         for (Game game : playedTime.keySet()) {
             if (game.getGenre().equals(genre)) {
-                sum += playedTime.get(game);
-            } else {
-                sum = 0;
+                sum = sum + playedTime.get(game);
             }
         }
         return sum;
@@ -57,6 +60,14 @@ public class Player {
     /** Метод принимает жанр и возвращает игру этого жанра, в которую играли больше всего
      Если в игры этого жанра не играли, возвращается null */
     public Game mostPlayerByGenre(String genre) {
-        return null;
+        int mostTime = 0;
+        Game mostPlayedGame = null;
+        for (Game game : playedTime.keySet()){
+            if (game.getGenre().equals(genre) && playedTime.get(game) > mostTime){
+                mostTime = playedTime.get(game);
+                mostPlayedGame = game;
+            }
+        }
+        return mostPlayedGame;
     }
 }
