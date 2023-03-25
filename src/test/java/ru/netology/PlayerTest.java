@@ -30,6 +30,7 @@ public class PlayerTest {
     @DisplayName("Должен вызывать исключение, если количество часов отрицательное")
     public void shouldThrowRunTimeExceptionIfTheNumberOfHoursIsNegative() {
         Player player = new Player("Petya");
+        player.installGame(game3);
 
         assertThrows(RuntimeException.class, () -> {
             player.play(game3, -1);
