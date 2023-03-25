@@ -3,6 +3,10 @@ package ru.netology;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -12,8 +16,11 @@ public class GameStoreTest {
     @Test //Добавление игры
     public void shouldAddGame() {
         Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
-        
-        assertTrue(store.containsGame(game));
+
+        List<Game> expected = new ArrayList<>();
+        expected.add(game);
+
+        Assertions.assertEquals(expected, store.getGames());
     }
 
     @Test //Добавление нескольких игр
@@ -22,7 +29,12 @@ public class GameStoreTest {
         Game game2 = store.publishGame("Диабло", "РПГ");
         Game game3 = store.publishGame("ГТА", "Гонки");
 
-        assertTrue(store.containsGame(game1) && store.containsGame(game2) && store.containsGame(game3));
+        List<Game> expected = new ArrayList<>();
+        expected.add(game1);
+        expected.add(game2);
+        expected.add(game3);
+
+        Assertions.assertEquals(expected, store.getGames());
     }
 
     @Test //Поиск добавленной игры в каталоге
@@ -45,8 +57,9 @@ public class GameStoreTest {
     public void shouldFirstAddPlayTime() {
         store.addPlayTime("Petya", 5);
 
-        int expected = 5;
-        int actual = store.getSumPlayedTime();
+        HashMap<String, Integer> expected = new HashMap<>();
+        expected.put("Petya", 5);
+        var actual = (HashMap) store.getPlayedTime();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -56,8 +69,9 @@ public class GameStoreTest {
         store.addPlayTime("Petya", 5);
         store.addPlayTime("Petya", 4);
 
-        int expected = 9;
-        int actual = store.getSumPlayedTime();
+        HashMap<String, Integer> expected = new HashMap<>();
+        expected.put("Petya", 9);
+        var actual = (HashMap) store.getPlayedTime();
 
         Assertions.assertEquals(expected, actual);
     }
@@ -66,8 +80,9 @@ public class GameStoreTest {
     public void shouldFirstAddNegativePlayTime() {
         store.addPlayTime("Petya", -5);
 
-        int expected = 0;
-        int actual = store.getSumPlayedTime();
+        HashMap<String, Integer> expected = new HashMap<>();
+        expected.put("Petya", 0);
+        var actual = (HashMap) store.getPlayedTime();
 
         Assertions.assertEquals(expected, actual);
     }
