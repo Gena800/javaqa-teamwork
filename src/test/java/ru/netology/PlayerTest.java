@@ -1,5 +1,6 @@
 package ru.netology;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Assertions;
@@ -61,6 +62,7 @@ public class PlayerTest {
         int actual = player.sumGenre(game1.getGenre());
         assertEquals(expected, actual);
     }
+
 
     @Test
     @DisplayName("Должен суммировать время, если несколько игр")
