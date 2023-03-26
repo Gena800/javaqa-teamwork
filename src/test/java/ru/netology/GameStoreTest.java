@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class GameStoreTest {
     GameStore store = new GameStore();
 
+
     @Test //Добавление игры
     public void shouldAddGame() {
         Game game = store.publishGame("Нетология Баттл Онлайн", "Аркады");
@@ -126,5 +127,4 @@ public class GameStoreTest {
 
         Assertions.assertEquals(expected, actual);
     }
-
 }
